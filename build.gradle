@@ -1,0 +1,55 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+}
+
+plugins {
+	id 'java'
+	id 'eclipse'
+	id "io.franzbecker.gradle-lombok" version "1.11"
+}
+
+jar {
+   // baseName = 'LeagueInformerClient'
+    //version =  '0.1.0'
+    archiveName 'InfernalBotManagerUpdater.jar'
+    manifest {
+        attributes "Main-Class": "net.nilsghesquiere.Main"
+    }
+ 
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+lombok {
+	version = '1.16.20'
+	sha256 = ""
+}
+
+repositories {
+    mavenCentral()
+}
+version = '1.0'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+           // exclude '**/nocompile/**'
+       }
+   }
+}
+
+dependencies {
+	compile(group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25')
+	compile(group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3')
+}
+
+test {
+    systemProperties 'property': 'value'
+}
+
