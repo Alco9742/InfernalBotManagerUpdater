@@ -1,6 +1,8 @@
 package net.nilsghesquiere;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -100,10 +102,10 @@ public class Main {
 					try {
 						//TODO disabled for now, need swing console first
 						LOGGER.info("Client update completed, starting client");
-						//ProcessBuilder pb = new ProcessBuilder("java", "-jar", clientPath.toString() + " " + iniPath);
+						ProcessBuilder pb = new ProcessBuilder("java", "-jar", "\"" +clientPath.toString() + "\"  \"" + iniPath + "\"");
 						//ProcessBuilder pb = new ProcessBuilder("cmd", "-c ", "C:\\Users\\Nghesqui\\git\\LeagueInformerClient\\LeagueInformerClient\\build\\libs\\startAfterUpdate.bat");
-						ProcessBuilder pb = new ProcessBuilder("cmd", "-c ", "dir");
 						pb.directory(new File(MANAGER_MAP));
+						pb.redirectErrorStream(true);
 						Process p = pb.start();
 					} catch (IOException e) {
 						LOGGER.error("Failure starting client");
