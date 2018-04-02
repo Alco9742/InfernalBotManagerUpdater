@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.PrintStream;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -40,9 +41,9 @@ public class InfernalBotManagerUpdaterGUI extends JFrame {
 			LOGGER.debug(e.getMessage());
 		}
 		
-		BufferedImage icon = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB_PRE);
-		this.setTitle("InfernalBotManager Updater");
-		this.setIconImage(icon);
+		ImageIcon icon = createImageIcon("/updater.png","InfernalBotManagerClient");
+		this.setTitle("InfernalBotManager");
+		this.setIconImage(icon.getImage());
 		
 		JTabbedPane tabbedPane = new JTabbedPane();
 
@@ -69,4 +70,14 @@ public class InfernalBotManagerUpdaterGUI extends JFrame {
 		this.setSize(800,300);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	}
+	
+	protected ImageIcon createImageIcon(String path,String description) {
+		java.net.URL imgURL = getClass().getResource(path);
+		if (imgURL != null) {
+			return new ImageIcon(imgURL, description);
+		} else {
+			System.err.println("Couldn't find file: " + path);
+			return null;
+		}
+}
 }

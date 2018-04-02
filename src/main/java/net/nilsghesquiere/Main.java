@@ -18,19 +18,22 @@ import org.slf4j.LoggerFactory;
 
 public class Main {
 	private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
-	private static final String PROGRAM_NAME = "InfernalBotManagerClient.jar";
+	private static final String PROGRAM_NAME = "InfernalBotManagerClient.exe";
 	private static  String MANAGER_MAP = "";
 	private static String URL = "";
 	public static void main(String[] args){
 		InfernalBotManagerUpdaterGUI gui = new InfernalBotManagerUpdaterGUI();
 		LOGGER.info("Starting InfernalBotManager updater");
 		try{
-			MANAGER_MAP = args[0];
-			URL = args[1];
+			MANAGER_MAP = args[0].replace("\"", "");
+			URL = args[1].replace("\"", "").replace("\\", "/") + "/";
+			URL = URL.substring(0, 5) + "/" + URL.substring(5, URL.length());
+			LOGGER.debug("URL: " + URL);
+			LOGGER.debug("MANAGER_MAP: " + MANAGER_MAP);
 			try {
 				//wait for process to close (once we have an exe we can force close it)
-				LOGGER.info("Sleeping for 30 seconds");
-				TimeUnit.SECONDS.sleep(30);
+				LOGGER.info("Sleeping for 10 seconds");
+				TimeUnit.SECONDS.sleep(10);
 			} catch (InterruptedException e) {
 				LOGGER.error("Failure during sleep");
 			}
@@ -113,8 +116,7 @@ public class Main {
 					try {
 						//TODO disabled for now, need swing console first
 						LOGGER.info("Client update completed, starting client");
-						ProcessBuilder pb = new ProcessBuilder("java", "-jar", "\"" +clientPath.toString() + "\"  \"" + iniPath + "\"");
-						//ProcessBuilder pb = new ProcessBuilder("cmd", "-c ", "C:\\Users\\Nghesqui\\git\\LeagueInformerClient\\LeagueInformerClient\\build\\libs\\startAfterUpdate.bat");
+						ProcessBuilder pb = new ProcessBuilder("\"" +clientPath.toString() + "\" \"" + iniPath + "\"");
 						pb.directory(new File(MANAGER_MAP));
 						pb.redirectErrorStream(true);
 						Process p = pb.start();

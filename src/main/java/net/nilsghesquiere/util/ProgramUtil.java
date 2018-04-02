@@ -45,10 +45,10 @@ public class ProgramUtil {
 			}
 			
 			try {
+				LOGGER.debug(url);
 				urlObj = new URL(url);
 				rbcObj = Channels.newChannel(urlObj.openStream());
 				fOutStream = new FileOutputStream(filePath);
-			
 				fOutStream.getChannel().transferFrom(rbcObj, 0, Long.MAX_VALUE);
 				LOGGER.info(filename  + " download complete");
 			} catch (IOException e) {
