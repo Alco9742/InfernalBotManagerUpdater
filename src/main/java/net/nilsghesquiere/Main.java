@@ -28,9 +28,8 @@ public class Main {
 			for (int i=1; i<args.length; i++){
 				LOGGER.debug("arg[" + i + "] = " + args[i]);
 			}
-			MANAGER_MAP = args[0].replace("\"", "");
-			URL = args[1].replace("\"", "").replace("\\", "/") + "/";
-			URL = URL.substring(0, 6) + "/" + URL.substring(6, URL.length());
+			MANAGER_MAP = args[0];
+			URL = args[1];
 			try{
 				SOFTSTART = args[3].equals("soft");
 			} catch (ArrayIndexOutOfBoundsException e){
@@ -124,13 +123,15 @@ public class Main {
 				if (!error){
 					try {
 						LOGGER.info("Client update completed, starting client");
-						String command = "\"" +clientPath.toString() + "\" \"" + iniPath;
+						String command = clientPath.toString();
+						String arg0 = iniPath.toString();
+						String arg1 = "";
 						if (SOFTSTART){
-							command = command + "\" \"" + "soft" + "\"";
+							arg1 = "soft";
 						} else {
-							command = command + "\" \"" + "hard" + "\"";
+							arg1 = "hard";
 						}
-						ProcessBuilder pb = new ProcessBuilder(command);
+						ProcessBuilder pb = new ProcessBuilder(command, arg0, arg1);
 						pb.directory(new File(MANAGER_MAP));
 						pb.redirectErrorStream(true);
 						Process p = pb.start();
