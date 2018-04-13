@@ -1,8 +1,6 @@
 package net.nilsghesquiere;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -21,6 +19,8 @@ public class Main {
 	private static final String PROGRAM_NAME = "InfernalBotManagerClient.exe";
 	private static  String MANAGER_MAP = "";
 	private static String URL = "";
+	private static boolean SOFTSTART = false;
+	
 	public static void main(String[] args){
 		InfernalBotManagerUpdaterGUI gui = new InfernalBotManagerUpdaterGUI();
 		LOGGER.info("Starting InfernalBotManager updater");
@@ -28,8 +28,11 @@ public class Main {
 			MANAGER_MAP = args[0].replace("\"", "");
 			URL = args[1].replace("\"", "").replace("\\", "/") + "/";
 			URL = URL.substring(0, 5) + "/" + URL.substring(5, URL.length());
-			LOGGER.debug("URL: " + URL);
+			SOFTSTART = args[3].equals("soft");
+			
 			LOGGER.debug("MANAGER_MAP: " + MANAGER_MAP);
+			LOGGER.debug("URL: " + URL);
+			LOGGER.debug("SOFTSTART: " + SOFTSTART);
 			try {
 				//wait for process to close (once we have an exe we can force close it)
 				LOGGER.info("Sleeping for 10 seconds");
@@ -114,9 +117,14 @@ public class Main {
 				//Start the client
 				if (!error){
 					try {
-						//TODO disabled for now, need swing console first
 						LOGGER.info("Client update completed, starting client");
-						ProcessBuilder pb = new ProcessBuilder("\"" +clientPath.toString() + "\" \"" + iniPath + "\"");
+						String command = "\"" +clientPath.toString() + "\" \"" + iniPath;
+						if (SOFTSTART){
+							command = command + "\" \"" + "soft" + "\"";
+						} else {
+							command = command + "\" \"" + "hard" + "\"";
+						}
+						ProcessBuilder pb = new ProcessBuilder(command);
 						pb.directory(new File(MANAGER_MAP));
 						pb.redirectErrorStream(true);
 						Process p = pb.start();
