@@ -25,6 +25,9 @@ public class Main {
 		InfernalBotManagerUpdaterGUI gui = new InfernalBotManagerUpdaterGUI();
 		LOGGER.info("Starting InfernalBotManager updater");
 		try{
+			for (int i=1; i<args.length; i++){
+				LOGGER.debug("arg[" + i + "] = " + args[i]);
+			}
 			MANAGER_MAP = args[0].replace("\"", "");
 			URL = args[1].replace("\"", "").replace("\\", "/") + "/";
 			URL = URL.substring(0, 6) + "/" + URL.substring(6, URL.length());
