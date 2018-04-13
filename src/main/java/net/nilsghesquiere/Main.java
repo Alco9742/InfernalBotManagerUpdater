@@ -28,8 +28,11 @@ public class Main {
 			MANAGER_MAP = args[0].replace("\"", "");
 			URL = args[1].replace("\"", "").replace("\\", "/") + "/";
 			URL = URL.substring(0, 5) + "/" + URL.substring(5, URL.length());
-			SOFTSTART = args[3].equals("soft");
-			
+			try{
+				SOFTSTART = args[3].equals("soft");
+			} catch (ArrayIndexOutOfBoundsException e){
+				SOFTSTART = false;
+			}
 			LOGGER.debug("MANAGER_MAP: " + MANAGER_MAP);
 			LOGGER.debug("URL: " + URL);
 			LOGGER.debug("SOFTSTART: " + SOFTSTART);
