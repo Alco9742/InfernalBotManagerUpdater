@@ -27,7 +27,7 @@ public class Main {
 		try{
 			MANAGER_MAP = args[0].replace("\"", "");
 			URL = args[1].replace("\"", "").replace("\\", "/") + "/";
-			URL = URL.substring(0, 5) + "/" + URL.substring(5, URL.length());
+			URL = URL.substring(0, 6) + "/" + URL.substring(6, URL.length());
 			try{
 				SOFTSTART = args[3].equals("soft");
 			} catch (ArrayIndexOutOfBoundsException e){
