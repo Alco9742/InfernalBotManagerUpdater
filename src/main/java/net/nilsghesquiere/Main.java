@@ -7,11 +7,11 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.concurrent.TimeUnit;
 
-import net.nilsghesquiere.gui.swing.InfernalBotManagerUpdaterGUI;
-import net.nilsghesquiere.util.ProgramUtil;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.nilsghesquiere.gui.swing.InfernalBotManagerUpdaterGUI;
+import net.nilsghesquiere.util.ProgramUtil;
 
 
 public class Main {
@@ -25,13 +25,13 @@ public class Main {
 		InfernalBotManagerUpdaterGUI gui = new InfernalBotManagerUpdaterGUI();
 		LOGGER.info("Starting InfernalBotManager updater");
 		try{
-			for (int i=1; i<args.length; i++){
+			for (int i=0; i<args.length; i++){
 				LOGGER.debug("arg[" + i + "] = " + args[i]);
 			}
 			MANAGER_MAP = args[0];
 			URL = args[1];
 			try{
-				SOFTSTART = args[3].equals("soft");
+				SOFTSTART = args[2].equals("soft");
 			} catch (ArrayIndexOutOfBoundsException e){
 				SOFTSTART = false;
 			}
@@ -135,6 +135,7 @@ public class Main {
 						pb.directory(new File(MANAGER_MAP));
 						pb.redirectErrorStream(true);
 						Process p = pb.start();
+						pb.command().stream().forEach(e -> LOGGER.debug(e));
 					} catch (IOException e) {
 						LOGGER.error("Failure starting client");
 						LOGGER.debug(e.getMessage());
