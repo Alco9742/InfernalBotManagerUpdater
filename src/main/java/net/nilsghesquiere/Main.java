@@ -30,6 +30,14 @@ public class Main {
 			}
 			MANAGER_MAP = args[0];
 			URL = args[1];
+			//temp workaround for old client sending malformed URL (ending with ")
+			if(URL.startsWith("https:\\i")){
+				LOGGER.debug("Temp workaround initiated");
+				URL = URL.replace('"', '\\');
+				URL = URL.replace("https:\\i", "https:\\\\i");
+				URL = URL.replace("\\", "/");
+			}
+
 			try{
 				SOFTSTART = args[2].equals("soft");
 			} catch (ArrayIndexOutOfBoundsException e){
